@@ -1,6 +1,6 @@
 const mw = require('./middleware')
 
-async function create(ctx) {
+async function create (ctx) {
   const text = ctx.request.body.text
   if (!text) {
     return ctx.render.badRequest(ctx, 'text is required')
@@ -22,11 +22,11 @@ async function create(ctx) {
   ctx.status = 201
 }
 
-function isDisplayableMessage(message) {
+function isDisplayableMessage (message) {
   return message.subtype === 'normal'
 }
 
-function simplifyMessage(bc, message) {
+function simplifyMessage (bc, message) {
   return {
     text: message.text,
     is_me: bc.isMessageFromMe(message),
@@ -35,7 +35,7 @@ function simplifyMessage(bc, message) {
   }
 }
 
-async function queryLatest(ctx) {
+async function queryLatest (ctx) {
   let vchannelId = ctx.session.get('vchannel_id')
   if (!vchannelId) {
     ctx.body = []
@@ -48,7 +48,7 @@ async function queryLatest(ctx) {
     .map((m) => simplifyMessage(ctx.bearychat, m))
 }
 
-async function querySince(ctx) {
+async function querySince (ctx) {
   let vchannelId = ctx.session.get('vchannel_id')
   if (!vchannelId) {
     ctx.body = []

@@ -34,6 +34,7 @@ router.use('/api/v1', apiRoute.routes(), apiRoute.allowedMethods())
 app.use(router.routes())
 
 app.context.render = require('./api/response')
+app.context.bearychat = require('./api/bearychat')()
 app.context.models = require('./storage/lean')
 app.context.config = require('./pippin.config.js')
 
@@ -42,9 +43,4 @@ app.use(async (ctx, next) => {
   await nuxt.render(ctx.req, ctx.res)
 })
 
-require('./api/bearychat')()
-  .then((bc) => {
-    app.context.bearychat = bc
-
-    app.listen(process.env.LEANCLOUD_APP_PORT)
-  })
+app.listen(process.env.LEANCLOUD_APP_PORT)

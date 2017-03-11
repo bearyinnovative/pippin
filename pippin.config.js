@@ -4,7 +4,7 @@ const customerServiceMemberIds = (process.env.PIPPIN_CUSTOMER_SERVICE_MEMBER_IDS
   .filter((i) => !!i)
 
 if (!customerServiceMemberIds || customerServiceMemberIds.length < 1) {
-  throw 'PIPPIN_CUSTOMER_SERVICE_MEMBER_IDS required'
+  console.error('PIPPIN_CUSTOMER_SERVICE_MEMBER_IDS required')
   process.exit(1)
 }
 

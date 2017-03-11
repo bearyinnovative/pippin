@@ -1,6 +1,6 @@
 const uuid = require('uuid/v4')
 
-async function init(ctx) {
+async function init (ctx) {
   const session = new ctx.models.Session()
   await session.save({
     token: uuid(),

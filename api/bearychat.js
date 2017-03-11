@@ -5,24 +5,24 @@ const parseJSON = (resp) => { return resp.json() }
 const QUERY_MESSAGES_LIMIT = 50
 
 class BearyChat {
-  constructor(token) {
+  constructor (token) {
     this.token = token
   }
 
-  async _init() {
+  async _init () {
     this.currentUser = await this.me()
   }
 
-  _p(payload = {}) {
+  _p (payload = {}) {
     payload.token = this.token
     return payload
   }
 
-  async me() {
+  async me () {
     return bearychat.user.me(this._p()).then(parseJSON)
   }
 
-  async createSessionChannel(session, memberIds) {
+  async createSessionChannel (session, memberIds) {
     const payload = this._p({
       // TODO better naming
       name: `pippin-${session.get('token').substring(0, 5)}`,
@@ -32,7 +32,7 @@ class BearyChat {
     return bearychat.sessionChannel.create(payload).then(parseJSON)
   }
 
-  async sendMessage(vchannelId, text) {
+  async sendMessage (vchannelId, text) {
     const payload = this._p({
       vchannel_id: vchannelId,
       text,
@@ -42,7 +42,7 @@ class BearyChat {
     return bearychat.message.create(payload).then(parseJSON)
   }
 
-  async queryMessageSince(vchannelId, sinceKey) {
+  async queryMessageSince (vchannelId, sinceKey) {
     const payload = this._p({
       vchannel_id: vchannelId,
       query: {
@@ -56,7 +56,7 @@ class BearyChat {
     return bearychat.message.query(payload).then(parseJSON)
   }
 
-  async queryMessageLatest(vchannelId) {
+  async queryMessageLatest (vchannelId) {
     const payload = this._p({
       vchannel_id: vchannelId,
       query: {
@@ -69,20 +69,20 @@ class BearyChat {
     return bearychat.message.query(payload).then(parseJSON)
   }
 
-  isMessageFromMe(message) {
+  isMessageFromMe (message) {
     return message.uid === this.currentUser.id
   }
 }
 
-module.exports = async () => {
+module.exports = () => {
   var token = process.env.BEARYCHAT_RTM_TOKEN
   if (!token) {
-    throw 'BEARYCHAT_RTM_TOKEN required'
+    throw new Error('BEARYCHAT_RTM_TOKEN required')
   }
 
   const bc = new BearyChat(token)
 
-  await bc._init()
+  bc._init()
 
   return bc
 }
