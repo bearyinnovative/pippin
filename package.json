@@ -5,9 +5,9 @@
   "author": "hbc <me@hbc.rocks>",
   "private": true,
   "scripts": {
-    "dev": "nodemon -w app.js -w nuxt.config.js --exec babel-node app.js",
-    "build": "nuxt build && babel app.js --out-file app.prod.js",
-    "start": "cross-env NODE_ENV=production node app.prod.js",
+    "dev": "nodemon -w app.js --exec babel-node app.js",
+    "build": "babel app.js --out-file app.prod.js",
+    "start": "npm run build && cross-env NODE_ENV=production node app.prod.js",
     "precommit": "npm run lint",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
@@ -20,6 +20,7 @@
   "dependencies": {
     "babel-cli": "^6.23.0",
     "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-async-to-generator": "^6.22.0",
     "bearychat": "1.0.0",
     "cross-env": "^3.1.4",
     "eslint": "^3.13.1",
@@ -30,10 +31,12 @@
     "koa": "^2.0.0",
     "koa-bodyparser": "^4.1.0",
     "koa-json": "^2.0.2",
+    "koa-mount": "^2.0.0",
     "koa-router": "next",
+    "koa-send": "^3.3.0",
+    "koa-static": "^3.0.0",
     "leancloud-storage": "^2.1.2",
     "leanengine": "1.2.2",
-    "nuxt": "latest",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

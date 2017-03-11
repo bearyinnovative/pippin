@@ -1,15 +1,12 @@
 # dependencies
 node_modules
+.yarnclean
 
 # logs
 npm-debug.log
 
-# Nuxt build
-.nuxt
+# build
 app.prod.js
-
-# Nuxt generate
-dist
 
 # leancloud
 .leancloud/
