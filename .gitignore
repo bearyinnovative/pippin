@@ -1,0 +1,15 @@
+# dependencies
+node_modules
+
+# logs
+npm-debug.log
+
+# Nuxt build
+.nuxt
+app.prod.js
+
+# Nuxt generate
+dist
+
+# leancloud
+.leancloud/
