@@ -33,11 +33,18 @@ router.use('/api/v1', apiRoute.routes(), apiRoute.allowedMethods())
 
 app.use(router.routes())
 
-app.context.bearychat = require('./api/bearychat')()
+app.context.render = require('./api/response')
+app.context.models = require('./storage/lean')
+app.context.config = require('./pippin.config.js')
 
 app.use(async (ctx, next) => {
   ctx.status = 200 // koa defaults to 404 when it sees that status is unset
   await nuxt.render(ctx.req, ctx.res)
 })
 
-app.listen(process.env.LEANCLOUD_APP_PORT)
+require('./api/bearychat')()
+  .then((bc) => {
+    app.context.bearychat = bc
+
+    app.listen(process.env.LEANCLOUD_APP_PORT)
+  })

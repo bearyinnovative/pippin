@@ -9,7 +9,7 @@ router
   .use(bodyParser())
   .use(json())
 
-router.get('/hello', async function(ctx, next) {
+router.get('/hello', async function(ctx) {
   const me = await ctx.bearychat.me()
   ctx.body = {
     hello: 'world',
@@ -18,5 +18,14 @@ router.get('/hello', async function(ctx, next) {
     },
   }
 })
+
+const modules = [
+  './session',
+  './message',
+]
+
+for (let m of modules) {
+  require(m)(router)
+}
 
 module.exports = router
