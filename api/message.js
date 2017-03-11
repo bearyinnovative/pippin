@@ -10,7 +10,7 @@ async function create(ctx) {
   if (!vchannelId) {
     const channel = await ctx.bearychat.createSessionChannel(
       ctx.session,
-      ctx.config.customerServiceMemberIds,
+      ctx.config.customerServiceMemberIds
     )
     vchannelId = channel.vchannel_id
     ctx.session.set('vchannel_id', vchannelId)
