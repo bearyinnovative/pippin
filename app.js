@@ -28,7 +28,8 @@ app.use(router.routes())
 if (app.env !== 'production') {
   app.use(mount('/s', serve(__dirname + '/s')))
 } else {
-  app.use(mount('/s', serve(__dirname + '/dist')))
+  app.use(mount('/s', serve(__dirname + '/s')))
+  // app.use(mount('/s', serve(__dirname + '/dist')))
 }
 
 app.listen(process.env.LEANCLOUD_APP_PORT)
