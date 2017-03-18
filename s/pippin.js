@@ -35,8 +35,9 @@
 
   function renderMessageUser(message) {
     const username = message.is_me ? '我' : '@BearyBot';
+    const avatarClass = message.is_me ? 'me' : 'bearybot';
     return [
-      '<div class="pippin-avatar"></div>',
+      `<div class="pippin-avatar pippin-avatar--${avatarClass}"></div>`,
       `<p class="pippin-username">${username}</p>`,
     ].join('');
   }

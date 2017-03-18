@@ -191,6 +191,12 @@
   margin: 0 10px 0 0;
 }
 
+.pippin-avatar--bearybot {
+  background: url("https://dn-bearychat.qbox.me/robot_assistant.png") !important;
+  background-size: cover !important;
+  background-color: transparent !important;
+}
+
 .pippin .pippin-window .pippin-window-messages .pippin-window-message p.pippin-fullname {
   display: inline-block;
   font-weight: bold;
