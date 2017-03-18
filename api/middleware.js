@@ -1,5 +1,5 @@
 async function sessionRequired (ctx, next) {
-  const sessionToken = ctx.req.headers['auth']
+  const sessionToken = ctx.req.headers['authorization']
   if (!sessionToken) {
     return ctx.render.sessionRequired(ctx)
   }
