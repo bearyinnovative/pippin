@@ -24,6 +24,15 @@
     };
   }
 
+  function parseInboxMessage(message) {
+    return {
+      created: new Date(message.created),
+      is_me: message.is_me,
+      key: message.key,
+      text: message.text,
+    };
+  }
+
   function renderMessageUser(message) {
     const username = message.is_me ? '我' : '@BearyBot';
     return [
@@ -53,18 +62,45 @@
     this.messages = [];
   }
 
+  Inbox.prototype.latestKey = function() {
+    if (this.messages.length === 0) {
+      return `${(new Date).getTime()}.0000`;
+    }
+    return this.messages[this.messages.length - 1].key;
+  };
+
   Inbox.prototype.setMessages = function(messages) {
-    this.messages = messages.slice();
+    this.messages = messages.slice().map(parseInboxMessage);
     return this.render();
   };
 
   Inbox.prototype.appendMessage = function(message) {
-    this.messages.push(message);
+    this.messages.push(parseInboxMessage(message));
     return this.render();
   };
 
-  Inbox.prototype.mergeMessages = function(message) {
-    // TODO
+  Inbox.prototype.mergeMessages = function(newMessages) {
+    const messagesKeySet = {};
+
+    const oldMessages = this.messages;
+    this.messages = [];
+    oldMessages.forEach((message) => {
+      if (messagesKeySet[message.key]) return;
+      messagesKeySet[message.key] = 1;
+      this.messages.push(message);
+    });
+    newMessages.map(parseInboxMessage).forEach((message) => {
+      if (messagesKeySet[message.key]) return;
+      // should have this message
+      if (message.is_me) return;
+      messagesKeySet[message.key] = 1;
+      this.messages.push(message);
+    });
+
+    this.messages = this.messages.sort((a, b) => {
+      return a.created - b.created;
+    });
+
     return this.render();
   };
 
@@ -190,6 +226,13 @@
     })
     .then(() => {
       inbox.scrollToLatest();
+
+      window.setInterval(() => {
+        pippin.queryLatestMessages()
+          .then((messages) => {
+            inbox.mergeMessages(messages);
+          });
+      }, 1500);
     });
 
   // -------------------------------------------------------------------------
